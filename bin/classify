@@ -10,13 +10,14 @@ program :description, 'Generates configurations for different aspects of the clu
 default_command :puppet
 
 command :puppet do |c|
-  c.syntax = 'classify puppet <hostname> [options]'
+  c.syntax = 'classify puppet <clustername> <hostname> [options]'
   c.description = 'Returns on STDOUT YAML dump of this nodes puppet config'
   c.option '--config STRING', String, 'Location to config file.'
   c.action do |args, options|
     options.default :config => File.join('/etc', 'cluster.yml')
-    hostname = args.first
+    cluster = args[0]
+    hostname = args[1]
     
-    say "#{ClassifyCluster.get_config(hostname, :config_file => options.config)}"
+    say "#{ClassifyCluster.get_config(:hostname => hostname, :cluster => cluster, :config_file => options.config)}"
   end
 end
