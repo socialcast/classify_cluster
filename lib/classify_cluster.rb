@@ -6,7 +6,7 @@ module ClassifyCluster
   
   def self.get_config(hostname, options={})
     options.reverse_merge! :config_file => DEFAULT_CONFIG_LOCATION
-    YAML::dump(cluster_config)
+    YAML.dump(cluster_config(options[:config_file]))
   end
   
   private
