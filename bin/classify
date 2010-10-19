@@ -17,6 +17,6 @@ command :puppet do |c|
     options.default :config => File.join('/etc', 'cluster.yml')
     hostname = args.first
     
-    say "#{ClassifyCluster.get_config(hostname)}"
+    say "#{ClassifyCluster.get_config(hostname, :config => options.config)}"
   end
 end
