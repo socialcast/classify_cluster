@@ -1,2 +1,2 @@
-require 'writers/capistrano'
-require 'writers/puppet'
+require 'classify_cluster/writers/capistrano'
+require 'classify_cluster/writers/puppet'
