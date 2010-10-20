@@ -25,7 +25,7 @@ module ClassifyCluster
               end
             end
           end
-        end
+        end; nil
       end
       private
       def self.output(string, options={})

@@ -8,7 +8,7 @@ module ClassifyCluster
       end
       
       def cluster(cluster_name, &block)
-        @clusters[cluster_name] = ClassifyCluster::Configurator::Cluster.new(&block)
+        @clusters[cluster_name] = ClassifyCluster::Configurator::Cluster.new(cluster_name, &block)
       end
     end
     class Cluster
@@ -23,7 +23,7 @@ module ClassifyCluster
         @name = value
       end
       def node(node_name, &block)
-        @nodes[node_name] = ClassifyCluster::Configurator::Node.new(&block)
+        @nodes[node_name] = ClassifyCluster::Configurator::Node.new(node_name, &block)
       end
     end
     class Node
