@@ -12,23 +12,33 @@ module ClassifyCluster
       end
     end
     class Cluster
-      attr_reader :nodes
+      attr_reader :nodes, :name
       def initialize(*args, &block)
         @nodes = {}
+        @name = args.first
         block.call self, *args
+      end
+      def name(value)
+        return @name unless value
+        @name = value
       end
       def node(node_name, &block)
         @nodes[node_name] = ClassifyCluster::Configurator::Node.new(&block)
       end
     end
     class Node
-      attr_reader :variables, :resources, :classes, :public_ip, :private_ip, :roles
+      attr_reader :fqdn, :variables, :resources, :classes, :public_ip, :private_ip, :roles
       def initialize(*args, &block)
         @variables = {}
         @resources = []
         @classes = []
         @roles = []
+        @fqdn = args.first
         block.call self, *args
+      end
+      def fqdn(value=nil)
+        return @fqdn unless value
+        @fqdn = value
       end
       def public_ip(value = nil)
         return @public_ip unless value
