@@ -24,6 +24,7 @@ module ClassifyCluster
                 file.write(output("include #{klass}", :indent => 1))
               end
             end
+            file.write(output("}"))
           end
         end; nil
       end
