@@ -16,6 +16,7 @@ module ClassifyCluster
       def initialize(*args, &block)
         @nodes = {}
         @name = args.first
+        puts args.inspect
         block.call self, *args
       end
       def name(value=nil)
