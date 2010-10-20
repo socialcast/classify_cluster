@@ -16,8 +16,7 @@ module ClassifyCluster
       def initialize(*args, &block)
         @nodes = {}
         @name = args.first
-        puts args.inspect
-        block.call self, *args
+        block.call self
       end
       def name(value=nil)
         return @name unless value
@@ -35,7 +34,7 @@ module ClassifyCluster
         @classes = []
         @roles = []
         @fqdn = args.first
-        block.call self, *args
+        block.call self
       end
       def fqdn(value=nil)
         return @fqdn unless value
@@ -66,7 +65,7 @@ module ClassifyCluster
       attr_reader :type, :name, :options
       def initialize(*args, &block)
         @options = {}
-        block.call self, *args
+        block.call self
       end
       def type(value = nil)
         return @type unless value
@@ -85,7 +84,7 @@ module ClassifyCluster
       attr_reader :type, :options
       def initialize(*args, &block)
         @options = {}
-        block.call self, *args
+        block.call self
       end
       def type(value = nil)
         return @type unless value
