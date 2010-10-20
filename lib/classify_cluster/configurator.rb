@@ -30,10 +30,12 @@ module ClassifyCluster
         @roles = []
         block.call self, *args
       end
-      def public_ip(value)
+      def public_ip(value = nil)
+        return @public_ip unless value
         @public_ip = value
       end
-      def private_ip(value)
+      def private_ip(value = nil)
+        return @private_ip unless value
         @private_ip = value
       end
       def role(&block)
@@ -55,13 +57,16 @@ module ClassifyCluster
         @options = {}
         block.call self, *args
       end
-      def type(value)
+      def type(value = nil)
+        return @type unless value
         @type = value
       end
-      def name(value)
+      def name(value = nil)
+        return @name unless value
         @name = value
       end
-      def options(value)
+      def options(value = nil)
+        return @options unless value
         @options = value
       end
     end
@@ -71,10 +76,12 @@ module ClassifyCluster
         @options = {}
         block.call self, *args
       end
-      def type(value)
+      def type(value = nil)
+        return @type unless value
         @type = value
       end
-      def options(value)
+      def options(value = nil)
+        return @options unless value
         @options = value
       end
     end
