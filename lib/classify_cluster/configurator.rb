@@ -63,6 +63,7 @@ module ClassifyCluster
       end
       def options(value)
         @options = value
+      end
     end
     class Role
       attr_reader :type, :options
