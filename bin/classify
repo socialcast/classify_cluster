@@ -3,6 +3,7 @@
 require "classify_cluster"
 require "classify_cluster/version"
 require "commander/import"
+require 'yaml'
 
 program :name, "Classify Cluster"
 program :version, ClassifyCluster::VERSION
@@ -18,6 +19,6 @@ command :puppet do |c|
     cluster = args[0]
     hostname = args[1]
     
-    say "#{ClassifyCluster.get_config(:hostname => hostname, :cluster => cluster, :config_file => options.config)}"
+    say "#{YAML.dump(ClassifyCluster.cluster_config(:cluster => cluster, :config_file => options.config)[hostname])}"
   end
 end
