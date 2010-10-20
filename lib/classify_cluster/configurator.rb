@@ -18,7 +18,7 @@ module ClassifyCluster
         @name = args.first
         block.call self, *args
       end
-      def name(value)
+      def name(value=nil)
         return @name unless value
         @name = value
       end
