@@ -4,9 +4,9 @@ module ClassifyCluster
       def self.export(export_to_folder, options={})
         options.reverse_merge! :config_file => ClassifyCluster::Base.default_config_file
         config = ClassifyCluster::Configurator::Configuration.new(options[:config_file])
-        config.clusters.each do |cluster|
+        config.clusters.each_pair do |name, cluster|
           File.open(File.join(export_to_folder, "#{cluster.name}.pp"), 'w') do |file|
-            cluster.nodes.each do |node|
+            cluster.nodes.each_pair do |fqdn, node|
               file.write(output(%Q%node "#{node.fqdn}" {%))
               node.variables.each_pair do |key, value|
                 file.write(output("$#{key}=#{value.inspect}", :indent => 1))
