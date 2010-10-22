@@ -1,7 +1,7 @@
 module ClassifyCluster
   module Writers
     class Puppet
-      def self.export(export_to_folder, options={})
+      def self.export!(export_to_folder, options={})
         options.reverse_merge! :config_file => ClassifyCluster::Base.default_config_file
         config = ClassifyCluster::Configurator::Configuration.new(options[:config_file])
         config.clusters.each_pair do |name, cluster|

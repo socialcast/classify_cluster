@@ -17,7 +17,7 @@ command :puppet do |c|
   c.option '--export STRING', String, 'Location to output puppet cluster config'
   c.action do |args, options|
     options.default :config => ClassifyCluster::Base.default_config_file, :export => ENV['HOME']
-    ClassifyCluster::Writers::Puppet.export(options.export, :cluster => args[0], :config_file => options.config)
+    ClassifyCluster::Writers::Puppet.export!(options.export, :cluster => args[0], :config_file => options.config)
     say("Success!")
   end
 end
