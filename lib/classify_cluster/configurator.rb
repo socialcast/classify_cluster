@@ -27,14 +27,18 @@ module ClassifyCluster
       end
     end
     class Node
-      attr_reader :fqdn, :variables, :resources, :classes, :public_ip, :private_ip, :roles
+      attr_reader :fqdn, :variables, :resources, :classes, :public_ip, :private_ip, :roles, :default
       def initialize(*args, &block)
         @variables = {}
         @resources = []
         @classes = []
         @roles = []
-        @fqdn = args.first
+        @fqdn = (args.first.to_s == 'default' ? '' : args.first)
+        @default = args.first.to_s == 'default'
         block.call self
+      end
+      def default?
+        return @default
       end
       def fqdn(value=nil)
         return @fqdn unless value

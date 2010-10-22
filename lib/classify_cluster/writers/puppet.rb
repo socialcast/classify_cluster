@@ -5,6 +5,7 @@ module ClassifyCluster
         options.reverse_merge! :config_file => ClassifyCluster::Base.default_config_file
         config = ClassifyCluster::Configurator::Configuration.new(options[:config_file])
         config.clusters.each_pair do |name, cluster|
+          next if options[:cluster] && !(options[:cluster] == cluster.to_s)
           File.open(File.join(export_to_folder, "#{cluster.name}.pp"), 'w') do |file|
             cluster.nodes.each_pair do |fqdn, node|
               file.write(output(%Q%node "#{node.fqdn}" {%))

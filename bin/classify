@@ -12,13 +12,11 @@ default_command :puppet
 
 command :puppet do |c|
   c.syntax = 'classify puppet <clustername> <hostname> [options]'
-  c.description = 'Returns on STDOUT YAML dump of this nodes puppet config'
+  c.description = 'Returns on STDOUT YAML dump of the clusters puppet config'
   c.option '--config STRING', String, 'Location to config file.'
   c.action do |args, options|
-    options.default :config => File.join('/etc', 'cluster.yml')
+    options.default :config => ClassifyCluster::Base.default_config_file, :export => './'
     cluster = args[0]
-    hostname = args[1]
-    
-    say "#{YAML.dump(ClassifyCluster.cluster_config(:cluster => cluster, :config_file => options.config)[hostname])}"
+    ClassifyCluster::Writers::Puppet.export(options[:export], :cluster => cluster, :config_file => options.config) && say "Success!"
   end
 end
