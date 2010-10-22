@@ -5,10 +5,10 @@ module ClassifyCluster
         options.reverse_merge! :config_file => ClassifyCluster::Base.default_config_file
         config = ClassifyCluster::Configurator::Configuration.new(options[:config_file])
         config.clusters.each_pair do |name, cluster|
-          next if options[:cluster] && !(options[:cluster] == cluster.to_s)
+          next if options[:cluster] && !(options[:cluster] == cluster.name.to_s)
           File.open(File.join(export_to_folder, "#{cluster.name}.pp"), 'w') do |file|
             cluster.nodes.each_pair do |fqdn, node|
-              file.write(output(%Q%node "#{node.fqdn}" {%))
+              file.write(output(%Q%node "#{node.default? ? 'default' : node.fqdn}" {%))
               node.variables.each_pair do |key, value|
                 file.write(output("$#{key}=#{value.inspect}", :indent => 1))
               end
