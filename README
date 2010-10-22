@@ -1,0 +1,5 @@
+Classify Cluster
+
+Useful if your wanting to have one location for specifying your capistrano and puppet configuration.
+
+This is still extremely alpha, do not recommend use on production systems.  More on documentation coming soon.
