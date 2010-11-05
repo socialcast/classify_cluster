@@ -17,19 +17,15 @@ module ClassifyCluster
               end
               cluster.resources.each do |resource|
                 file.write(output("#{resource.type} { #{resource.name.inspect}:", :indent => 1))
-                count = 0
                 resource.options.each_pair do |key, value|
-                  file.write(output("#{key} => #{value.inspect}#{"," if count >= resource.options.size}", :indent => 2))
-                  count += 1
+                  file.write(output("#{key} => #{value.inspect},", :indent => 2))
                 end
                 file.write(output("}", :indent => 1))
               end
               node.resources.each do |resource|
                 file.write(output("#{resource.type} { #{resource.name.inspect}:", :indent => 1))
-                count = 0
                 resource.options.each_pair do |key, value|
-                  file.write(output("#{key} => #{value.inspect}#{"," if count >= resource.options.size}", :indent => 2))
-                  count += 1
+                  file.write(output("#{key} => #{value.inspect},", :indent => 2))
                 end
                 file.write(output("}", :indent => 1))
               end
