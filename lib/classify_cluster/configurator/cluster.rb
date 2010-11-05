@@ -4,6 +4,9 @@ module ClassifyCluster
       attr_reader :nodes, :name, :classes, :variables, :resources
       def initialize(*args, &block)
         @nodes = {}
+        @variables = {}
+        @resources = []
+        @classes = []
         @name = args.first
         block.call self
       end
