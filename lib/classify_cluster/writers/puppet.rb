@@ -9,8 +9,20 @@ module ClassifyCluster
           File.open(File.join(export_to_folder, "#{cluster.name}.pp"), 'w') do |file|
             cluster.nodes.each_pair do |fqdn, node|
               file.write(output(%Q%node "#{node.default? ? 'default' : node.fqdn}" {%))
+              cluster.variables.each_pair do |key, value|
+                file.write(output("$#{key}=#{value.inspect}", :indent => 1))
+              end
               node.variables.each_pair do |key, value|
                 file.write(output("$#{key}=#{value.inspect}", :indent => 1))
+              end
+              cluster.resources.each do |resource|
+                file.write(output("#{resource.type} { #{resource.name.inspect}:", :indent => 1))
+                count = 0
+                resource.options.each_pair do |key, value|
+                  file.write(output("#{key} => #{value.inspect}#{"," if count >= resource.options.size}", :indent => 2))
+                  count += 1
+                end
+                file.write(output("}", :indent => 1))
               end
               node.resources.each do |resource|
                 file.write(output("#{resource.type} { #{resource.name.inspect}:", :indent => 1))
@@ -20,6 +32,9 @@ module ClassifyCluster
                   count += 1
                 end
                 file.write(output("}", :indent => 1))
+              end
+              cluster.classes.each do |klass|
+                file.write(output("include #{klass}", :indent => 1))
               end
               node.classes.each do |klass|
                 file.write(output("include #{klass}", :indent => 1))
