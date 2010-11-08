@@ -35,8 +35,8 @@ module ClassifyCluster
               node.classes.each do |klass|
                 file.write(output("include #{klass}", :indent => 1))
               end
+              file.write(output("}"))
             end
-            file.write(output("}"))
           end
         end; nil
       end
