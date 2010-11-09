@@ -38,6 +38,17 @@ module ClassifyCluster
             end
           end
         end
+        @nodes.each_pair do |fqdn, node|
+          node.resource do |resource|
+            resource.type 'etchosts'
+            resource.name "hosts"
+            resource.options({
+              :short_name => fqdn.split('.').first,
+              :fqdn => fqdn,
+              :hosts => @variables['hostnames']
+            })
+          end
+        end
         returned
       end
       def name(value=nil)
