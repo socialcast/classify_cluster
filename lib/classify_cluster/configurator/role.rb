@@ -2,9 +2,9 @@ module ClassifyCluster
   module Configurator
     class Role
       attr_reader :type, :options
-      def initialize(name, options={})
+      def initialize(type, options={})
+        @type = type
         @options = options
-        block.call self
       end
       def type(value = nil)
         return @type unless value
