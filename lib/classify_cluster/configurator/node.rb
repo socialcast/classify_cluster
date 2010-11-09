@@ -24,13 +24,13 @@ module ClassifyCluster
         @default = args.first.to_s == 'default'
         returned = block.call(self)
         @roles.each do |role|
-          if ROLE_2_KLASS_MAP.has_key?(role.type)
+          if ROLE_2_KLASS_MAP.has_key?(role.type.to_s)
             if role.options.size > 0
               role.options.each_pair do |key, value|
                 @classes << ROLE_2_KLASS_MAP[role.type.to_s][key.to_s]
               end
             else
-              @classes << ROLE_2_KLASS_MAP[role.type]
+              @classes << ROLE_2_KLASS_MAP[role.type.to_s]
             end
           end
         end

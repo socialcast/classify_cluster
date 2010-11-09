@@ -21,10 +21,10 @@ module ClassifyCluster
           @variables['hostnames'] = [] unless @variables['hostnames']
           @variables['hostnames'] << "#{fqdn}/#{node.private_ip}"
           node.roles.each do |role|
-            next unless ROLE_2_VARIABLE_MAP.has_key?(role.type)
+            next unless ROLE_2_VARIABLE_MAP.has_key?(role.type.to_s)
             
-            variable_name = ROLE_2_VARIABLE_MAP[role.type].first
-            variable_initial_value = ROLE_2_VARIABLE_MAP[role.type][1]
+            variable_name = ROLE_2_VARIABLE_MAP[role.type.to_s].first
+            variable_initial_value = ROLE_2_VARIABLE_MAP[role.type.to_s][1]
             @variables[variable_name] = variable_initial_value unless @variables.has_key?(variable_name)
             
             if @variables[variable_name].is_a?(Array)
