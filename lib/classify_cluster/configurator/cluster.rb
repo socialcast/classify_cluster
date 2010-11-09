@@ -3,10 +3,11 @@ module ClassifyCluster
     class Cluster
       ROLE_2_VARIABLE_MAP = {
         'app' => ['app_servers', []],
-        'db' => ['database_server', ''],
-        'queue' => ['queue_server', ''],
+        'db' => ['database_host', ''],
+        'queue' => ['queue_host', ''],
         'push' => ['blow_server', ''],
-        'search' => ['solr_host', '']
+        'search' => ['solr_host', ''],
+        'munin' => ['munin_master', '']
       }
       attr_reader :nodes, :name, :classes, :variables, :resources, :hostnames
       def initialize(*args, &block)
@@ -22,7 +23,10 @@ module ClassifyCluster
           @variables['hostnames'] << "#{fqdn}/#{node.private_ip}"
           node.roles.each do |role|
             next unless ROLE_2_VARIABLE_MAP.has_key?(role.type.to_s)
-            
+            if role.type.to_s == 'munin' && role.options.has_key?('master')
+              @variables['munin_master'] = node.private_ip
+              next
+            end
             variable_name = ROLE_2_VARIABLE_MAP[role.type.to_s].first
             variable_initial_value = ROLE_2_VARIABLE_MAP[role.type.to_s][1]
             @variables[variable_name] = variable_initial_value unless @variables.has_key?(variable_name)
