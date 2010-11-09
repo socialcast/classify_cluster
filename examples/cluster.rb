@@ -15,11 +15,7 @@ cluster :"appliance-cluster" do |cluster|
       resource.options value[:options]
     end
   end
-  cluster.node :"example.com" do |node|
-    node.klass "webserver"
-    node.variable :appservers, ['123.456.28.1']
-    node.role do |role|
-      role.type :web
-    end
+  cluster.node :"example.com", '127.0.0.1' do |node|
+    node.role :web
   end
 end
