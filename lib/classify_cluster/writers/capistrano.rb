@@ -10,7 +10,11 @@ module ClassifyCluster
           roles = node.roles
           next if roles.empty?
           roles.each do |role|
-            capistrano_configurator.role(role.type, node.public_ip, role.options)
+            if role.type == 'queue'
+              capistrano_configurator.role('rabbitmq', node.public_ip, role.options)
+            else
+              capistrano_configurator.role(role.type, node.public_ip, role.options)
+            end
           end
         end
       end
