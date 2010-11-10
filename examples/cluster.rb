@@ -74,15 +74,14 @@ cluster :"appliance-cluster" do |cluster|
   
   cluster.node 'node1.fqdn', '10.11.11.321' do |node|
     
-    node.role :db, :primary => true
+    node.role :db, :primary => true do |role|
+      role.variable 'serverid', 1
+    end
     node.role :queue
     node.role :cron, :primary => true, :backup => true
     node.role :app
     node.role :worker
     node.role :munin, :node => true
-    
-    node.variable 'serverid', 1
-    
   end
   
   cluster.node 'node2.fqdn', '10.11.11.123' do |node|

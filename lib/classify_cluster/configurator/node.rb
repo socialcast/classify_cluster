@@ -1,20 +1,9 @@
 module ClassifyCluster
   module Configurator
     class Node
-      ROLE_2_KLASS_MAP = {
-        'db' => { 'primary' => 'databaseserver::onpremise', 'backup' => 'databasereplicationserver::onpremise'},
-        'queue' => 'queueserver::onpremise',
-        'app' => 'appserver::onpremise',
-        'worker' => 'workerserver::onpremise',
-        'web' => 'webserver::onpremise',
-        'puppet_master' => 'puppetmaster::onpremise',
-        'munin' => { 'master' => 'munin::master::onpremise', 'node' => 'munin::node::onpremise' },
-        'push' => 'pushserver::onpremise',
-        'cache' => 'memcached',
-        'search' => 'searchserver::onpremise'
-      }
-      attr_reader :fqdn, :variables, :resources, :classes, :private_ip, :public_ip, :roles, :default
+      attr_reader :cluster, :fqdn, :variables, :resources, :classes, :private_ip, :public_ip, :roles, :default
       def initialize(*args, &block)
+        @cluster = args[2]
         @variables = {}
         @resources = []
         @classes = []
@@ -22,18 +11,7 @@ module ClassifyCluster
         @fqdn = (args.first.to_s == 'default' ? '' : args.first)
         @private_ip = (args[1].to_s == 'default' ? '' : args[1])
         @default = args.first.to_s == 'default'
-        returned = block.call(self)
-        @roles.each do |role|
-          if ROLE_2_KLASS_MAP.has_key?(role.type.to_s)
-            if role.options.size > 0
-              role.options.each_pair do |key, value|
-                @classes << ROLE_2_KLASS_MAP[role.type.to_s][key.to_s]
-              end
-            else
-              @classes << ROLE_2_KLASS_MAP[role.type.to_s]
-            end
-          end
-        end
+        block.call(self)
       end
       def default?
         return @default
@@ -50,8 +28,8 @@ module ClassifyCluster
         return (@public_ip || @private_ip) unless value
         @public_ip = value
       end
-      def role(type, options={})
-        @roles << ClassifyCluster::Configurator::Role.new(type, options)
+      def role(type='', options={})
+        @roles << ClassifyCluster::Configurator::Role.new(self, type, options, &block)
       end
       def variable(name, value)
         @variables[name] = value
