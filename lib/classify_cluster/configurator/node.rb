@@ -28,7 +28,7 @@ module ClassifyCluster
         return (@public_ip || @private_ip) unless value
         @public_ip = value
       end
-      def role(type='', options={})
+      def role(type='', options={}, &block)
         @roles << ClassifyCluster::Configurator::Role.new(self, type, options, &block)
       end
       def variable(name, value)
