@@ -29,7 +29,7 @@ module ClassifyCluster
           @node.klass "databaseserver::onpremise" if @options.has_key?(:primary)
           @node.klass "databasereplicationserver::onpremise" if @options.has_key?(:backup)
         when "puppet_master"
-          @node.klass "puppet_master::onpremise"
+          @node.klass "puppetmaster::onpremise"
         when "munin"
           @node.klass "munin::master::onpremise" if @options.has_key?(:master)
           @node.klass "munin::node::onpremise" if @options.has_key?(:node)
