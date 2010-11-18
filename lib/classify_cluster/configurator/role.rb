@@ -47,6 +47,8 @@ module ClassifyCluster
           @node.klass "#{@type.to_s}server::onpremise"
         when "search"
           @node.klass "#{@type.to_s}server::onpremise"
+        when "file"
+          @node.klass "#{@type.to_s}server::onpremise"
         end
       end
       def add_variable_from_role
@@ -64,6 +66,9 @@ module ClassifyCluster
           @node.cluster.variable 'solr_host', @node.private_ip
         when 'munin'
           @node.cluster.variable('munin_master', @node.private_ip) if @options.has_key?(:master)
+        when 'file'
+          @node.cluster.variables['fileserver_hosts'] ||= []
+          @node.cluster.variables['fileserver_hosts'] << @node.private_ip
         end
       end
       def method_missing(method_name, *args)
