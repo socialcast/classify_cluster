@@ -33,8 +33,6 @@ module ClassifyCluster
         when "munin"
           @node.klass "munin::master::onpremise" if @options.has_key?(:master)
           @node.klass "munin::node::onpremise" if @options.has_key?(:node)
-        when "cache"
-          @node.klass "memcached"
         when "queue"
           @node.klass "#{@type.to_s}server::onpremise"
         when "app"
@@ -49,19 +47,21 @@ module ClassifyCluster
           @node.klass "#{@type.to_s}server::onpremise"
         when "file"
           @node.klass "#{@type.to_s}server::onpremise"
+        when "cache"
+          @node.klass "#{@type.to_s}server::onpremise"
         end
       end
       def add_variable_from_role
         case @type.to_s
         when 'app'
-          @node.cluster.variables['app_servers'] ||= []
-          @node.cluster.variables['app_servers'] << @node.private_ip
+          @node.cluster.variables['app_hosts'] ||= []
+          @node.cluster.variables['app_hosts'] << @node.private_ip
         when 'db'
           @node.cluster.variable('database_host', @node.private_ip) if @options.has_key?(:primary)
         when 'queue'
           @node.cluster.variable 'queue_host', @node.private_ip
         when 'push'
-          @node.cluster.variable 'blow_server', @node.private_ip
+          @node.cluster.variable 'blow_host', @node.private_ip
         when 'search'
           @node.cluster.variable 'solr_host', @node.private_ip
         when 'munin'
@@ -69,6 +69,8 @@ module ClassifyCluster
         when 'file'
           @node.cluster.variables['fileserver_hosts'] ||= []
           @node.cluster.variables['fileserver_hosts'] << @node.private_ip
+        when 'cache'
+          @node.cluster.variables 'cache_host', @node.private_ip
         end
       end
       def method_missing(method_name, *args)
