@@ -3,7 +3,7 @@ module ClassifyCluster
     class Capistrano
       CLUSTER_ROLE_2_CAP_ROLE = {
         'db' => 'db',
-        'queue' => 'rabbitmq',
+        'queue' => 'queue',
         'cron' => 'cron',
         'app' => 'app',
         'worker' => 'workling',
