@@ -70,7 +70,7 @@ module ClassifyCluster
           @node.cluster.variables['fileserver_hosts'] ||= []
           @node.cluster.variables['fileserver_hosts'] << @node.private_ip
         when 'cache'
-          @node.cluster.variables 'cache_host', @node.private_ip
+          @node.cluster.variable 'cache_host', @node.private_ip
         end
       end
       def method_missing(method_name, *args)

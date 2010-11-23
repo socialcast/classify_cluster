@@ -6,13 +6,14 @@ module ClassifyCluster
         options.reverse_merge! :config_file => ClassifyCluster::Base.default_config_file
         config = ClassifyCluster::Configurator::Configuration.new(options[:config_file])
         config.clusters.each_pair do |name, cluster|
+          
           next if options[:cluster] && !(options[:cluster] == cluster.name.to_s)
-          unless cluster.ssl_pem.empty?
-            pem_file = "/etc/puppet/modules/#{cluster.ssl_pem[:module]}/files/#{cluster.name.to_s}.#{File.basename(cluster.ssl_pem[:file_path])}"
-            FileUtils.cp cluster.ssl_pem[:file_path], pem_file
-            FileUtils.chown 'root', 'puppet', pem_file
-            FileUtils.chmod 0640, pem_file
-          end
+          
+          pem_file = "/etc/puppet/modules/#{cluster.ssl_pem[:module]}/files/#{cluster.name.to_s}.#{File.basename(cluster.ssl_pem[:file_path])}"
+          FileUtils.cp cluster.ssl_pem[:file_path], pem_file
+          FileUtils.chown 'root', 'puppet', pem_file
+          FileUtils.chmod 0640, pem_file
+          
           File.open(File.join(export_to_folder, "#{cluster.name}.pp"), 'w') do |file|
             cluster.nodes.each_pair do |fqdn, node|
               file.write(output(%Q%node "#{node.default? ? 'default' : node.fqdn}" {%))
