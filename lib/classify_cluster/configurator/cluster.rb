@@ -1,8 +1,9 @@
 module ClassifyCluster
   module Configurator
     class Cluster
-      attr_reader :nodes, :name, :classes, :variables, :resources, :hostnames
+      attr_reader :nodes, :name, :classes, :variables, :resources, :hostnames, :ssl_pem
       def initialize(*args, &block)
+        @ssl_pem = {}
         @nodes = {}
         @variables = {}
         @resources = []
@@ -26,6 +27,10 @@ module ClassifyCluster
           end
         end
         returned
+      end
+      def ssl_pem(file_path=nil, module_name=nil)
+        return @ssl_pem if file_path.nil? && module_name.nil?
+        @ssl_pem = {:file_path => file_path, :module => module_name}
       end
       def name(value=nil)
         return @name unless value
