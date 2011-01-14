@@ -3,7 +3,7 @@ module ClassifyCluster
     class Cluster
       attr_reader :nodes, :name, :classes, :variables, :resources, :hostnames, :ssl_pem
       def initialize(*args, &block)
-        @ssl_pem = {:file_path => '/etc/ssl/pem/raa.pem', :module => 'loadbalancer'}
+        @ssl_pem = {:file_path => '/etc/ssl/pem/scmc.pem', :module => 'loadbalancer'}
         @nodes = {}
         @variables = {}
         @resources = []

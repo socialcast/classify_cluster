@@ -48,7 +48,7 @@ cluster :"appliance-cluster" do |cluster|
     'app_shared_root' => '/var/www/socialcast',
     'app_user' => 'socialcast',
     'ssl_pem_path' => '/etc/ssl/pem',
-    'app_pem_file' => 'raa.pem',
+    'app_pem_file' => 'scmc.pem',
     'cdn_disabled' => 'true',
     'solr_jvm_options' => '-server -d32 -Xmx500M -Xms64M', # Needs more granular configuration
     'rails_env' => 'production',
