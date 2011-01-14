@@ -12,7 +12,8 @@ module ClassifyCluster
         'push' => 'push',
         'puppet_master' => 'puppet_master',
         'search' => 'solr',
-        'file' => 'file'
+        'file' => 'file',
+        'scheduler' => 'scheduler'
       }
       def self.export!(capistrano_configurator, cluster, config_file=ClassifyCluster::Base.default_config_file)
         config = ClassifyCluster::Configurator::Configuration.new(config_file).clusters[cluster]

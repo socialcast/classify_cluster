@@ -49,6 +49,8 @@ module ClassifyCluster
           @node.klass "#{@type.to_s}server::onpremise"
         when "cache"
           @node.klass "#{@type.to_s}server::onpremise"
+        when "scheduler"
+          @node.klass "#{@type.to_s}server"
         end
       end
       def add_variable_from_role
