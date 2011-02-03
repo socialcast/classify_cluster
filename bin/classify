@@ -26,9 +26,9 @@ command :config do |c|
   c.syntax = 'classify config <clustername> [options]'
   c.description = 'Runs an interactive script to generate a cluster configuration'
   c.option '--export STRING', String, 'Location to output cluster configuration'
+  c.option '--cluster STRING', String, 'cluster being created'
   c.action do |args, options|
     options.default :export => ClassifyCluster::Base.default_config_file
-    
-    say("Success!")
+    ClassifyCluster::Writers::Classify.export!(ClassifyCluster::Readers::Cli.start!(options.cluster))
   end
 end

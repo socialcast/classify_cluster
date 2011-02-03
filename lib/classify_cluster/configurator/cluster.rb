@@ -1,9 +1,11 @@
 module ClassifyCluster
   module Configurator
     class Cluster
+      SSLPEM_FILEPATH = '/etc/ssl/pem/scmc.pem'
+      SSLPEM_MODULE = 'loadbalancer'
       attr_reader :nodes, :name, :classes, :variables, :resources, :hostnames, :ssl_pem
       def initialize(*args, &block)
-        @ssl_pem = {:file_path => '/etc/ssl/pem/scmc.pem', :module => 'loadbalancer'}
+        @ssl_pem = {}
         @nodes = {}
         @variables = {}
         @resources = []
@@ -11,25 +13,15 @@ module ClassifyCluster
         @name = args.first
         @hostnames = {}
         returned = block.call(self)
-        @nodes.each_pair do |fqdn, node|
-          @variables['hostnames'] = [] unless @variables['hostnames']
-          @variables['hostnames'] << "#{fqdn}/#{node.private_ip}"
-        end
-        @nodes.each_pair do |fqdn, node|
-          node.resource do |resource|
-            resource.type 'etchosts'
-            resource.name "hosts"
-            resource.options({
-              :short_name => fqdn.split('.').first,
-              :fqdn => fqdn,
-              :hosts => @variables['hostnames']
-            })
-          end
-        end
+        add_hostnames
+        add_node_roles
         returned
       end
       def ssl_pem(file_path=nil, module_name=nil)
-        return @ssl_pem if file_path.nil? && module_name.nil?
+        if file_path.nil? && module_name.nil?
+          @ssl_pem = {:file_path => SSLPEM_FILEPATH, :module => SSLPEM_MODULE}
+          return @ssl_pem
+        end
         @ssl_pem = {:file_path => file_path, :module => module_name}
       end
       def name(value=nil)
@@ -48,6 +40,25 @@ module ClassifyCluster
       end
       def klass(name)
         @classes << name
+      end
+      def add_hostnames
+        @nodes.each_pair do |fqdn, node|
+          @variables['hostnames'] = [] unless @variables['hostnames']
+          @variables['hostnames'] << "#{fqdn}/#{node.private_ip}"
+        end
+      end
+      def add_node_roles
+        @nodes.each_pair do |fqdn, node|
+          node.resource do |resource|
+            resource.type 'etchosts'
+            resource.name "hosts"
+            resource.options({
+              :short_name => fqdn.split('.').first,
+              :fqdn => fqdn,
+              :hosts => @variables['hostnames']
+            })
+          end
+        end
       end
     end
   end
