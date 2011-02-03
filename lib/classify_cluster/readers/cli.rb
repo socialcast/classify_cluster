@@ -10,6 +10,26 @@ module ClassifyCluster
         
       end
       
+      def self.gather_value(key, value)
+        case value
+        when Array
+          times = ask("How many #{key.to_s}: ", Integer)
+          answers = []
+          times.each do |i|
+            answers << gather_value(key, value.first)
+          end
+          answers
+        when Hash
+          ask("#{key.to_s}: ") do |q|
+            q.gather = value
+          end
+        when Integer
+          ask("#{key.to_s}: ", Integer)
+        else
+          ask("#{key.to_s}: ")
+        end
+      end
+      
       def self.gather_cluster_info(cluster_name)
         cluster_name = ask("Cluster Name (no spaces): ") do |q|
           q.validate = /^\w.*/
@@ -49,9 +69,9 @@ module ClassifyCluster
             :backup_s3_bucket => '',
             :cloudkick_oauth_key => '',
             :cloudkick_oauth_secret => '',
-            :database_encoding => 'utf8',
+            :database_encoding => 'utf8'
           }.each_pair do |key, value|
-            cluster_config.variable key, value
+            cluster_config.variable key, gather_value(key, value)
           end
           {
             :socialcast_domain => "",
@@ -86,32 +106,7 @@ module ClassifyCluster
             :smtp_password => '',
             :alert_address => ''
           }.each_pair do |key, value|
-            if value.is_a?(Array)
-              should_run = ask("configure #{key} (Y/n): ") do |q|
-                q.default = 'n'
-              end
-              if running = should_run == 'Y'
-                returning_values = []
-                while running
-                  returning_value = {}
-                  value.each_pair do |subkey, subvalue|
-                    if value.is_a?(Hash)
-                      subreturning_value = {}
-                      subvalue.each_pair do |subsubkey, subsubvalue|
-                        subreturning_value[subsubkey] = ask("#{subsubkey.to_s}: ")
-                      end
-                      returning_value[subkey] = subreturning_value
-                    else
-                      returning_value[subkey] = ask("#{subkey.to_s}: ")
-                    end
-                  end
-                  returning_values << returning_value
-                end
-                cluster_config.variable key, returning_values
-              end
-            else
-              cluster_config.variable key, ask("#{key.to_s}: ")
-            end
+            cluster_config.variable key, gather_value(key, value)
           end
         end
       end
