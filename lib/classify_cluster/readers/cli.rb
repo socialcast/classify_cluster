@@ -17,7 +17,7 @@ module ClassifyCluster
           answers = []
           ask("#{"\s"*indent}How many #{key.to_s}: ", Integer).times do |i|
             answers << gather_value(key, value.first, 1)
-            say "Configured #{i} #{key.to_s}"
+            say "Configured #{i+1} #{key.to_s}"
           end
           answers
         when Hash
