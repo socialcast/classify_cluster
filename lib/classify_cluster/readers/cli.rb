@@ -71,7 +71,7 @@ module ClassifyCluster
             :cloudkick_oauth_secret => '',
             :database_encoding => 'utf8'
           }.each_pair do |key, value|
-            cluster_config.variable key, gather_value(key, value)
+            cluster_config.variable key, value
           end
           {
             :socialcast_domain => "",
