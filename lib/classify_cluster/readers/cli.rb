@@ -13,9 +13,9 @@ module ClassifyCluster
       def self.gather_value(key, value)
         case value
         when Array
-          times = ask("How many #{key.to_s}: ", Integer)
+          times = 
           answers = []
-          times.each do |i|
+          ask("How many #{key.to_s}: ", Integer).times do |i|
             answers << gather_value(key, value.first)
           end
           answers
