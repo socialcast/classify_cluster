@@ -21,7 +21,7 @@ module ClassifyCluster
           end
           answers
         when Hash
-          ask("#{"\s"*indent}<%= @key %>: ", lambda {|ans| ans =~ /^{\s+['|:].*$/ ? eval(ans) : ans}) do |q|
+          ask("#{"\s"*indent}<%= @key %>: ", lambda {|ans| ans =~ /^\{\s+['|:].*$/ ? eval(ans) : ans}) do |q|
             q.gather = value
           end
         when Integer
