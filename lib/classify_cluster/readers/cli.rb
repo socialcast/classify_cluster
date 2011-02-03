@@ -10,23 +10,24 @@ module ClassifyCluster
         
       end
       
-      def self.gather_value(key, value)
+      def self.gather_value(key, value, indent=0)
         case value
         when Array
           times = 
           answers = []
-          ask("How many #{key.to_s}: ", Integer).times do |i|
-            answers << gather_value(key, value.first)
+          ask("#{"\s"*indent}How many #{key.to_s}: ", Integer).times do |i|
+            answers << gather_value(key, value.first, 1)
+            say "Configured #{i} #{key.to_s}"
           end
           answers
         when Hash
-          ask("#{key.to_s}: ") do |q|
+          ask("#{"\s"*indent}<%= @key %>: ") do |q|
             q.gather = value
           end
         when Integer
-          ask("#{key.to_s}: ", Integer)
+          ask("#{"\s"*indent}#{key.to_s}: ", Integer)
         else
-          ask("#{key.to_s}: ")
+          ask("#{"\s"*indent}#{key.to_s}: ")
         end
       end
       
