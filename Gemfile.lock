@@ -1,0 +1,20 @@
+PATH
+  remote: .
+  specs:
+    classify_cluster (0.2.7)
+      activesupport (>= 2.3.5)
+      commander (= 4.0.3)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activesupport (3.0.3)
+    commander (4.0.3)
+      highline (>= 1.5.0)
+    highline (1.6.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  classify_cluster!
