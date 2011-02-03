@@ -11,7 +11,9 @@ module ClassifyCluster
       end
       
       def self.gather_cluster_info(cluster_name)
-        cluster_name = ask("Cluster Name (no spaces): ") unless cluster_name
+        cluster_name = ask("Cluster Name (no spaces): ") do |q|
+          q.validate = /^\w.*/
+        end unless cluster_name
         cluster_info = ClassifyCluster::Configurator::Cluster.new(cluster_name) do |cluster_config|
           file_path = ask("Ssl pem path: ") do |q| 
             q.validate{ |a| File.exists?(a) }
@@ -96,11 +98,11 @@ module ClassifyCluster
                     if value.is_a?(Hash)
                       subreturning_value = {}
                       subvalue.each_pair do |subsubkey, subsubvalue|
-                        subreturning_value[subsubkey] = ask("#{subsubkey.titleize}: ")
+                        subreturning_value[subsubkey] = ask("#{subsubkey.to_s}: ")
                       end
                       returning_value[subkey] = subreturning_value
                     else
-                      returning_value[subkey] = ask("#{subkey.titleize}: ")
+                      returning_value[subkey] = ask("#{subkey.to_s}: ")
                     end
                   end
                   returning_values << returning_value
@@ -108,7 +110,7 @@ module ClassifyCluster
                 cluster_config.variable key, returning_values
               end
             else
-              cluster_config.variable key, ask("#{key.titleize.titleize}: ")
+              cluster_config.variable key, ask("#{key.to_s}: ")
             end
           end
         end
