@@ -1,2 +1,3 @@
 require 'classify_cluster/writers/capistrano'
 require 'classify_cluster/writers/puppet'
+require 'classify_cluster/writers/classify'
