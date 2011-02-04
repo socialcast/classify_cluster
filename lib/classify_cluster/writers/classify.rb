@@ -7,10 +7,10 @@ module ClassifyCluster
           output file, "cluster :\"#{classify_configurator.name}\" do |cluster|"
 
           classify_configurator.classes.each do |klass|
-            output file, "cluster.klass #{klass}", 1
+            output file, "cluster.klass #{klass.inspect}", 1
           end
           classify_configurator.variables.each_pair do |key, variable|
-            output file, "cluster.variable #{key}, #{variable.inspect}", 1
+            output file, "cluster.variable #{key.inspect}, #{variable.inspect}", 1
           end
 
           output file, "end"

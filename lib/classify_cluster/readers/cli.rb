@@ -66,7 +66,7 @@ module ClassifyCluster
           klasses = ask("Classes: (q to stop)") do |q|
             q.gather = 'q'
           end
-          klasses.each do |klass|
+          klasses.delete_if {|klass| klass.nil? || klass.empty?}.each do |klass|
             cluster_config.klass klass
           end
         end
