@@ -27,8 +27,10 @@ command :config do |c|
   c.description = 'Runs an interactive script to generate a cluster configuration'
   c.option '--export STRING', String, 'Location to output cluster configuration'
   c.option '--cluster STRING', String, 'cluster being created'
+  c.option '--defaults STRING', String, 'Location to load cluster defaults'
+  c.option '--variables STRING', String, 'Location to load cluster variables'
   c.action do |args, options|
-    options.default :export => ClassifyCluster::Base.default_config_file
-    ClassifyCluster::Writers::Classify.export!(ClassifyCluster::Readers::Cli.start!(options.cluster))
+    options.default :export => ClassifyCluster::Base.default_config_file, :defaults => '', :variables => ''
+    ClassifyCluster::Writers::Classify.export!(ClassifyCluster::Readers::Cli.start!(options.cluster), options.defaults, options.variables)
   end
 end

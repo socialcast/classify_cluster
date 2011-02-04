@@ -1,0 +1,27 @@
+{
+  :socialcast_background_processor => 'resque',
+  'socialcast_mode' => 'appliance',
+  'socialcast_filestore' => 'riak',
+  'cluster_name' => 'appliance-cluster',
+  'deployment_root' => '/var/www/socialcast',
+  'app_root' =>  '/var/www/socialcast',
+  'app_shared_root' => '/var/www/socialcast',
+  'app_user' => 'socialcast',
+  'ssl_pem_path' => '/etc/ssl/pem',
+  'app_pem_file' => 'scmc.pem',
+  'cdn_disabled' => 'true',
+  'solr_jvm_options' => '-server -Xmx500M -Xms64M', # Needs more granular configuration
+  'rails_env' => 'production',
+  'scheduler_env' => 'production',
+  :backup_s3_app_name => "appliance",
+  :newrelic_enabled => false,
+  :solr_newrelic_app_name => "appliance",
+  :newrelic_app_name => 'appliance',
+  :aws_access_key_id => '',
+  :aws_secret_access_key => '',
+  :s3_bucket => '',
+  :backup_s3_bucket => '',
+  :cloudkick_oauth_key => '',
+  :cloudkick_oauth_secret => '',
+  :database_encoding => 'utf8'
+}
