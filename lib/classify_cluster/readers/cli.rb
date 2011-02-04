@@ -62,6 +62,13 @@ module ClassifyCluster
           variables.each_pair do |key, value|
             cluster_config.variable key, gather_value(key, value)
           end
+          
+          klasses = ask("Classes: ") do |q|
+            q.gather = 'q'
+          end
+          klasses.each do |klass|
+            cluster_config.klass klass
+          end
         end
       end
     end

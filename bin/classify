@@ -31,6 +31,6 @@ command :config do |c|
   c.option '--variables STRING', String, 'Location to load cluster variables'
   c.action do |args, options|
     options.default :export => ClassifyCluster::Base.default_config_file, :defaults => '', :variables => ''
-    ClassifyCluster::Writers::Classify.export!(ClassifyCluster::Readers::Cli.start!(options.cluster), options.defaults, options.variables)
+    ClassifyCluster::Writers::Classify.export!(ClassifyCluster::Readers::Cli.start!(options.cluster, options.defaults, options.variables))
   end
 end
