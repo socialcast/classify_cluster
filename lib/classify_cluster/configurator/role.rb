@@ -1,5 +1,20 @@
 module ClassifyCluster
   module Configurator
+    ROLES = [
+      'file',
+      'scheduler',
+      'app',
+      'web',
+      'push',
+      'puppet_master',
+      {'munin' => ['master', 'node']},
+      'cache',
+      {'db' => ['primary', 'backup']},
+      'queue',
+      {'cron' => ['primary', 'backup']},
+      'search',
+      'worker'
+    }
     class Role
       attr_reader :type, :options, :node, :variables
       def initialize(node, type, options={}, &block)

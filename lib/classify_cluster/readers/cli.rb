@@ -15,15 +15,18 @@ module ClassifyCluster
         File.open(variables_path, 'r') do |file|
           variables = eval(file.read)
         end if File.exists?(variables_path)
-        
-        gather_cluster_info(cluster_name, defaults, variables)
-        
+        say "Configure cluster wide"
+        cluster_conig = gather_cluster_info(cluster_name, defaults, variables)
+        say "Configure nodes"
+        nodes = []
+        ask("How many nodes: ", Integer).times do |i|
+          gather_node_info!(cluster_conig)
+        end
       end
       
       def self.gather_value(key, value, indent=0)
         case value
         when Array
-          times = 
           answers = []
           ask("#{"\t"*indent}How many #{key.to_s}: ", Integer).times do |i|
             answers << gather_value(key, value.first, 1)
@@ -41,12 +44,21 @@ module ClassifyCluster
         end
       end
       
+      def self.gather_node_info!(cluster_config)
+        role = ask("Role: ", ClassifyCluster::Configurator::ROLES.map { |k| k.is_a?(Hash) ? k.keys.first : k })
+        ask("Type: ", ClassifyCluster::Configurator::ROLES.delete_if { |k| !k.is_a?(Hash) || !k.has_key?(role)})[0][role] if ClassifyCluster::Configurator::ROLES.delete_if { |k| !k.is_a?(Hash)}.map(&:keys).flatten.include?(role)
+        
+        cluster_config.node(ask("Hostname: "), ask("Ip: ")) do |node|
+          
+        end
+      end
+      
       def self.gather_cluster_info(cluster_name, defaults={}, variables={})
         cluster_name = ask("Cluster Name (no spaces): ") do |q|
           q.validate = /^\w.*/
         end unless cluster_name
         
-        cluster_info = ClassifyCluster::Configurator::Cluster.new(cluster_name) do |cluster_config|
+        ClassifyCluster::Configurator::Cluster.new(cluster_name) do |cluster_config|
           file_path = ask("Ssl pem path: ") do |q| 
             q.validate{ |a| File.exists?(a) }
             q.default = ClassifyCluster::Configurator::Cluster::SSLPEM_FILEPATH
