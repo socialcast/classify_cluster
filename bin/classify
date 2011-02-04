@@ -26,7 +26,7 @@ command :config do |c|
   c.syntax = 'classify config <clustername> [options]'
   c.description = 'Runs an interactive script to generate a cluster configuration'
   c.option '--export STRING', String, 'Location to output cluster configuration'
-  c.option '--cluster STRING', String, 'cluster being created'
+  c.option '--cluster STRING', String, 'Cluster being created'
   c.option '--defaults STRING', String, 'Location to load cluster defaults'
   c.option '--variables STRING', String, 'Location to load cluster variables'
   c.action do |args, options|
