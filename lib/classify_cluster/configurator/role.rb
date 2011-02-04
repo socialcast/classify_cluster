@@ -14,12 +14,18 @@ module ClassifyCluster
       {'cron' => ['primary', 'backup']},
       'search',
       'worker'
-    }
+    ]
     class Role
+      begin
+        require 'active_support/hash_with_indifferent_access'
+        include ActiveSupport
+      rescue LoadError
+      end
+      
       attr_reader :type, :options, :node, :variables
       def initialize(node, type, options={}, &block)
         @type = type
-        @options = options.symbolize_keys
+        @options = HashWithIndifferentAccess.new(options)
         @node = node
         @variables = {}
         block.call(self) if block_given?

@@ -16,12 +16,14 @@ module ClassifyCluster
           variables = eval(file.read)
         end if File.exists?(variables_path)
         say "Configure cluster wide"
-        cluster_conig = gather_cluster_info(cluster_name, defaults, variables)
+        cluster_config = gather_cluster_info(cluster_name, defaults, variables)
         say "Configure nodes"
         nodes = []
         ask("How many nodes: ", Integer).times do |i|
-          gather_node_info!(cluster_conig)
+          gather_node_info!(cluster_config)
         end
+        puts cluster_config.inspect
+        cluster_config
       end
       
       def self.gather_value(key, value, indent=0)
@@ -45,11 +47,35 @@ module ClassifyCluster
       end
       
       def self.gather_node_info!(cluster_config)
-        role = ask("Role: ", ClassifyCluster::Configurator::ROLES.map { |k| k.is_a?(Hash) ? k.keys.first : k })
-        ask("Type: ", ClassifyCluster::Configurator::ROLES.delete_if { |k| !k.is_a?(Hash) || !k.has_key?(role)})[0][role] if ClassifyCluster::Configurator::ROLES.delete_if { |k| !k.is_a?(Hash)}.map(&:keys).flatten.include?(role)
+        hostname = ask("Hostname: ")
+        ip = ask("Ip: ")
+        role_names = ClassifyCluster::Configurator::ROLES.map { |k| k.is_a?(Hash) ? k.keys.first : k }
         
-        cluster_config.node(ask("Hostname: "), ask("Ip: ")) do |node|
-          
+        cluster_config.node(hostname, ip) do |node|
+          more_roles = true
+          while more_roles
+            types = {}
+            role_name = ask("Role [#{role_names.join(', ')}]: ", role_names)
+            if ClassifyCluster::Configurator::ROLES.reject { |k| !k.is_a?(Hash) }.map(&:keys).flatten.include?(role_name)
+              possible_types = ClassifyCluster::Configurator::ROLES.reject { |k| !k.is_a?(Hash) || !k.has_key?(role_name)}[0][role_name]
+              more_types = true
+              while more_types
+                type = ask("Type [#{possible_types.join(', ')}]: ", possible_types) 
+                possible_types -= [type]
+                types[type] = true
+                more_types = possible_types.size > 0 && agree("More types? ")
+              end
+            end
+            node.role role_name.to_sym, types do |role|
+              while agree("Role variables?")
+                name = ask("name: ")
+                value = ask("value: ")
+                role.variable name, value
+              end
+            end
+            role_names -= [role_name]
+            more_roles = role_names.size > 0 && agree("More roles? ")
+          end
         end
       end
       
