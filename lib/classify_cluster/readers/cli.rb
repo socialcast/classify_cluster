@@ -63,7 +63,7 @@ module ClassifyCluster
             cluster_config.variable key, gather_value(key, value)
           end
           
-          klasses = ask("Classes: ") do |q|
+          klasses = ask("Classes: (q to stop)") do |q|
             q.gather = 'q'
           end
           klasses.each do |klass|
