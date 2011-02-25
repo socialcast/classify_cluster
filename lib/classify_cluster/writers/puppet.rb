@@ -10,11 +10,6 @@ module ClassifyCluster
           
           next if options[:cluster] && !(options[:cluster] == cluster.name.to_s)
           
-          pem_file = "/etc/puppet/modules/#{cluster.ssl_pem[:module]}/files/#{cluster.name.to_s}.#{File.basename(cluster.ssl_pem[:file_path])}"
-          FileUtils.cp cluster.ssl_pem[:file_path], pem_file
-          FileUtils.chown 'root', 'puppet', pem_file
-          FileUtils.chmod 0640, pem_file
-          
           File.open(File.join(export_to_folder, "#{cluster.name}.pp"), 'w') do |file|
             cluster.nodes.each_pair do |fqdn, node|
               file.write(output(%Q%node "#{node.default? ? 'default' : node.fqdn}" {%))
