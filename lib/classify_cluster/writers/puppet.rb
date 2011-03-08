@@ -39,7 +39,7 @@ module ClassifyCluster
               node.classes.each do |klass|
                 file.write(output("include #{klass}", :indent => 1))
               end
-              file.write(output("include socialcast::onpremise", :indent => 1))
+              file.write(output("include socialcast", :indent => 1))
               file.write(output("}\n"))
             end
           end

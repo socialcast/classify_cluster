@@ -1,6 +1,6 @@
 # classify_cluster v.0.0.3a
 cluster_common = %w{ ntp conary sysstat }
-onpremise_common = %w{ sudo::onpremise cron::onpremise monit::onpremise logrotate::onpremise }
+onpremise_common = %w{ sudo cron monit logrotate }
 
 cluster :"appliance-cluster" do |cluster|
   (cluster_common + onpremise_common).each do |common_class|

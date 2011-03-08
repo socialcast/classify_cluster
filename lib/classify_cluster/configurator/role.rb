@@ -47,29 +47,29 @@ module ClassifyCluster
       def add_klass_from_role
         case @type.to_s
         when "db"
-          @node.klass "databaseserver::onpremise" if @options.has_key?(:primary)
-          @node.klass "databasereplicationserver::onpremise" if @options.has_key?(:backup)
+          @node.klass "databaseserver" if @options.has_key?(:primary)
+          @node.klass "databasereplicationserver" if @options.has_key?(:backup)
         when "puppet_master"
-          @node.klass "puppetmaster::onpremise"
+          @node.klass "puppetmaster"
         when "munin"
-          @node.klass "munin::master::onpremise" if @options.has_key?(:master)
-          @node.klass "munin::node::onpremise" if @options.has_key?(:node)
+          @node.klass "munin::master" if @options.has_key?(:master)
+          @node.klass "munin::node" if @options.has_key?(:node)
         when "queue"
-          @node.klass "#{@type.to_s}server::onpremise"
+          @node.klass "#{@type.to_s}server"
         when "app"
-          @node.klass "#{@type.to_s}server::onpremise"
+          @node.klass "#{@type.to_s}server"
         when "worker"
-          @node.klass "#{@type.to_s}server::onpremise"
+          @node.klass "#{@type.to_s}server"
         when "web"
-          @node.klass "#{@type.to_s}server::onpremise"
+          @node.klass "#{@type.to_s}server"
         when "push"
-          @node.klass "#{@type.to_s}server::onpremise"
+          @node.klass "#{@type.to_s}server"
         when "search"
-          @node.klass "#{@type.to_s}server::onpremise"
+          @node.klass "#{@type.to_s}server"
         when "file"
-          @node.klass "#{@type.to_s}server::onpremise"
+          @node.klass "#{@type.to_s}server"
         when "cache"
-          @node.klass "#{@type.to_s}server::onpremise"
+          @node.klass "#{@type.to_s}server"
         when "scheduler"
           @node.klass "#{@type.to_s}server"
         end
