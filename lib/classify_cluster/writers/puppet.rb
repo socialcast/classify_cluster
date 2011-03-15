@@ -1,5 +1,4 @@
 require 'fileutils'
-require 'active_support'
 
 module ClassifyCluster
   module Writers
@@ -48,7 +47,7 @@ module ClassifyCluster
       end
       private
       def self.output(string, options={})
-        options.reverse_merge! :indent => 0
+        options = {:indent => 0}.merge(options)
         %Q%#{("\s" * 2) * options[:indent]}#{string}\n%
       end
     end
