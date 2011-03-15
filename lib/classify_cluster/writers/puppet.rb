@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'active_support'
 
 module ClassifyCluster
   module Writers
