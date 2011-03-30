@@ -40,7 +40,6 @@ module ClassifyCluster
                 file.write(output("include #{klass}", :indent => 1))
               end
               file.write(output("include socialcast", :indent => 1))
-              file.write(output("include snmp", :indent => 1))
               file.write(output("}\n"))
             end
           end
