@@ -5,3 +5,7 @@ Useful if your wanting to have one location for specifying your capistrano and p
 This is still extremely alpha, do not recommend use on production systems.  More on documentation coming soon.
 
 Check the examples directory for sample cluster configurations.
+
+== Copyright
+
+Copyright (c) 2011 Socialcast, Inc. See LICENSE for details.
