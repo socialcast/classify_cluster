@@ -86,7 +86,11 @@ module ClassifyCluster
         when 'push'
           @node.cluster.variable 'blow_host', @node.private_ip
         when 'search'
-          @node.cluster.variable 'solr_host', @node.private_ip
+          if @node.cluster.variables['search_service'] == 'elasticsearch'
+            @node.cluster.variable 'elasticsearch_host', "#{@node.private_ip}:9200"
+          else
+            @node.cluster.variable 'solr_host', @node.private_ip
+          end          
         when 'munin'
           @node.cluster.variable('munin_master', @node.private_ip) if @options.has_key?(:master)
         when 'file'
