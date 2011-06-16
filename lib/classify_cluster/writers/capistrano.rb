@@ -11,7 +11,7 @@ module ClassifyCluster
         'web' => 'web',
         'push' => 'push',
         'puppet_master' => 'puppet_master',
-        'search' => 'solr',
+        'search' => 'elasticsearch',
         'file' => 'file',
         'scheduler' => 'scheduler'
       }
