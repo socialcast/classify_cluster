@@ -14,10 +14,10 @@ module ClassifyCluster
             cluster.nodes.each_pair do |fqdn, node|
               file.write(output(%Q%node "#{node.default? ? 'default' : node.fqdn}" {%))
               cluster.variables.each_pair do |key, value|
-                file.write(output("$#{key}=#{value.inspect}", :indent => 1))
+                file.write(output("$#{key}=#{value.inspect.gsub(/\$/, '\$')}", :indent => 1))
               end
               node.variables.each_pair do |key, value|
-                file.write(output("$#{key}=#{value.inspect}", :indent => 1))
+                file.write(output("$#{key}=#{value.inspect.gsub(/\$/, '\$')}", :indent => 1))
               end
               cluster.resources.each do |resource|
                 file.write(output("#{resource.type} { #{resource.name.inspect}:", :indent => 1))
