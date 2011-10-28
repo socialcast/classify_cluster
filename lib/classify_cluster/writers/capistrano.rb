@@ -13,7 +13,8 @@ module ClassifyCluster
         'puppet_master' => 'puppet_master',
         'search' => 'elasticsearch',
         'file' => 'file',
-        'scheduler' => 'scheduler'
+        'scheduler' => 'scheduler',
+        'sso' => 'sso'
       }
       def self.export!(capistrano_configurator, cluster, config_file=ClassifyCluster::Base.default_config_file)
         config = ClassifyCluster::Configurator::Configuration.new(config_file).clusters[cluster]
