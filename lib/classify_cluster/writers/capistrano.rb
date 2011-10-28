@@ -6,7 +6,7 @@ module ClassifyCluster
         'queue' => 'queue',
         'cron' => 'cron',
         'app' => 'app',
-        'worker' => 'workling',
+        'worker' => 'worker',
         'munin' => 'munin',
         'web' => 'web',
         'push' => 'push',
