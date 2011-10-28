@@ -13,7 +13,8 @@ module ClassifyCluster
       'queue',
       {'cron' => ['primary', 'backup']},
       'search',
-      'worker'
+      'worker',
+      'sso'
     ]
     class Role
       begin
@@ -71,6 +72,8 @@ module ClassifyCluster
         when "cache"
           @node.klass "#{@type.to_s}server"
         when "scheduler"
+          @node.klass "#{@type.to_s}server"
+        when "sso"
           @node.klass "#{@type.to_s}server"
         end
       end
