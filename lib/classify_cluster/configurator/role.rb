@@ -97,6 +97,8 @@ module ClassifyCluster
           @node.cluster.variables['fileserver_hosts'] << @node.private_ip
         when 'cache'
           @node.cluster.variable 'cache_host', @node.private_ip
+        when 'sso'
+          @node.cluster.variable 'ping_federate_host', @node.private_ip
         end
       end
       def method_missing(method_name, *args)
