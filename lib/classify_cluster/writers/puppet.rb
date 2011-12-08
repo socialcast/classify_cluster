@@ -14,22 +14,22 @@ module ClassifyCluster
             cluster.nodes.each_pair do |fqdn, node|
               file.write(output(%Q%node "#{node.default? ? 'default' : node.fqdn}" {%))
               cluster.variables.each_pair do |key, value|
-                file.write(output("$#{key}=#{value.inspect.gsub(/\$/, '\$')}", :indent => 1)) unless value.blank?
+                file.write(output("$#{key}=#{value.inspect.gsub(/\$/, '\$')}", :indent => 1)) unless value.blank? && value != false
               end
               node.variables.each_pair do |key, value|
-                file.write(output("$#{key}=#{value.inspect.gsub(/\$/, '\$')}", :indent => 1)) unless value.blank?
+                file.write(output("$#{key}=#{value.inspect.gsub(/\$/, '\$')}", :indent => 1)) unless value.blank? && value != false
               end
               cluster.resources.each do |resource|
                 file.write(output("#{resource.type} { #{resource.name.inspect}:", :indent => 1))
                 resource.options.each_pair do |key, value|
-                  file.write(output("#{key} => #{value.inspect},", :indent => 2)) unless value.blank?
+                  file.write(output("#{key} => #{value.inspect},", :indent => 2)) unless value.blank? && value != false
                 end
                 file.write(output("}", :indent => 1))
               end
               node.resources.each do |resource|
                 file.write(output("#{resource.type} { #{resource.name.inspect}:", :indent => 1))
                 resource.options.each_pair do |key, value|
-                  file.write(output("#{key} => #{value.inspect},", :indent => 2)) unless value.blank?
+                  file.write(output("#{key} => #{value.inspect},", :indent => 2)) unless value.blank? && value != false
                 end
                 file.write(output("}", :indent => 1))
               end
