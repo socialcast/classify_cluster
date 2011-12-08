@@ -11,9 +11,9 @@ Gem::Specification.new do |s|
   s.homepage    = "http://rubygems.org/gems/classify_cluster"
   s.summary     = %q{Contains several binaries for generating capistrano and puppet configurations}
   s.description = %q{Reading from a YAML file will allow for consistent configuration between capistrano and puppet}
-  s.add_dependency(%q<commander>, ["~> 4.0.3"])
-  s.add_dependency(%q<highline>, [">= 1.5.0"])
-  s.add_dependency(%q<activesupport>, [">= 2.3.5"])
+  s.add_dependency(%q<thor>, ["~> 0.14.6"])
+  s.add_dependency(%q<i18n>, [">= 0"])
+  s.add_dependency(%q<activesupport>, [">= 3.0.0"])
 
   s.rubyforge_project = "classify_cluster"
 
