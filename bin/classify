@@ -6,7 +6,6 @@ require File.join(File.dirname(__FILE__), '..', 'lib', "classify_cluster")
 require 'yaml'
 
 class Classify < Thor
-  include Thor::Shell::Basic
   default_task :puppet
   
   desc 'puppet', 'Generates configurations for different aspects of the cluster based off of one configuration.'
@@ -18,4 +17,4 @@ class Classify < Thor
   end
 end
 
-Classify.start
+Classify.start(ARGV, :shell => Thor::Shell::Basic.new)
