@@ -9,8 +9,8 @@ class Classify < Thor
   default_task :puppet
   
   desc 'puppet CLUSTER_NAME', 'Generates configurations for different aspects of the cluster based off of one configuration.'
-  method_option :config, :desc => 'Location to config file', :type => :string, :default => ClassifyCluster::Base.default_config_file
-  method_option :export, :desc => 'Location to output puppet cluster config', :type => :string, :default => ENV['HOME']
+  method_option :config, :aliases => "-c", :desc => 'Location to config file', :type => :string, :default => ClassifyCluster::Base.default_config_file
+  method_option :export, :aliases => "-e", :desc => 'Location to output puppet cluster config', :type => :string, :default => ENV['HOME']
   def puppet(cluster_name=nil)
     ClassifyCluster::Writers::Puppet.export!(options.export, :cluster => cluster_name, :config_file => options.config)
     say("Success!")
