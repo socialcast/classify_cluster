@@ -81,7 +81,9 @@ module ClassifyCluster
         case @type.to_s
         when 'app'
           @node.cluster.variables['app_hosts'] ||= []
+          @node.cluster.variables['app_host_weights'] ||= []
           @node.cluster.variables['app_hosts'] << @node.private_ip
+          @node.cluster.variables['app_host_weights'] << @node.variables['number_of_rails']
         when 'db'
           @node.cluster.variable('database_host', @node.private_ip) if @options.has_key?(:primary)
         when 'queue'
