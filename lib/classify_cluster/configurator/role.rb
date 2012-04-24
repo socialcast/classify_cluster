@@ -87,7 +87,9 @@ module ClassifyCluster
         when 'queue'
           @node.cluster.variable 'queue_host', @node.private_ip
         when 'push'
-          @node.cluster.variable 'blow_host', @node.private_ip
+          @node.cluster.variables['push_servers'] ||= []
+          @node.cluster.variables['push_servers'] << @node.private_ip
+          @node.cluster.variable 'number_of_push_server_instances', 4
         when 'search'
           @node.cluster.variable 'elasticsearch_host', "#{@node.private_ip}:9200"      
         when 'munin'
