@@ -48,8 +48,7 @@ module ClassifyCluster
       def add_klass_from_role
         case @type.to_s
         when "db"
-          @node.klass "databaseserver" if @options.has_key?(:primary)
-          @node.klass "databasereplicationserver" if @options.has_key?(:backup)
+          @node.klass "databaseserver"
         when "puppet_master"
           @node.klass "puppetmaster"
         when "munin"
