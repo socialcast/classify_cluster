@@ -47,6 +47,12 @@ module ClassifyCluster
       private
       def add_klass_from_role
         case @type.to_s
+        when "db"
+          if @options.has_key?(:primary)
+            @node.klass "databaseserver"
+          else
+            @node.klass "databasereplicationserver"
+          end
         when "puppet_master"
           @node.klass "puppetmaster"
         when "munin"
@@ -72,10 +78,6 @@ module ClassifyCluster
           @node.klass "#{@type.to_s}server"
         when "sso"
           @node.klass "#{@type.to_s}server"
-        when "db"
-          @node.klass "databaseserver" if @options.has_key?(:primary)
-        else
-          @node.klass "databasereplicationserver"
         end
       end
       def add_variable_from_role
